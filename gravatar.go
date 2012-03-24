@@ -1,20 +1,18 @@
+/*
+Support for the Gravatar API.
+
+See: http://en.gravatar.com/site/implement/
+
+This can be used as an independent package.
+*/
 package gravatar
 
-/*
-Copyright (c) 2011 Erik Unger
-
-Licensed under the MIT license, see file LICENSE
-
-Gravatar API: http://en.gravatar.com/site/implement/
-*/
-
 import (
-	"os"
-	"fmt"
-	"url"
-	"http"
-	"strings"
 	"crypto/md5"
+	"fmt"
+	"net/http"
+	"net/url"
+	"strings"
 )
 
 // Default images (used as defaultURL)
@@ -31,7 +29,7 @@ func Hash(email string) string {
 	email = strings.ToLower(strings.TrimSpace(email))
 	hash := md5.New()
 	hash.Write([]byte(email))
-	return fmt.Sprintf("%x", hash.Sum())
+	return fmt.Sprintf("%x", hash.Sum(nil))
 }
 
 func Url(email string) string {
@@ -67,7 +65,7 @@ func SecureUrlSizeDefault(email string, size int, defaultURL string) string {
 	return SecureUrlSize(email, size) + "&d=" + url.QueryEscape(defaultURL)
 }
 
-func Available(email string) (ok bool, err os.Error) {
+func Available(email string) (ok bool, err error) {
 	url := fmt.Sprintf("http://www.gravatar.com/avatar/%s?d=404", Hash(email))
 	response, err := http.Get(url)
 	if err != nil {
