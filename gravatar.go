@@ -1,9 +1,7 @@
 /*
-Support for the Gravatar API.
+Wrapper for the Gravatar API.
 
 See: http://en.gravatar.com/site/implement/
-
-This can be used as an independent package.
 */
 package gravatar
 
